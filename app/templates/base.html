@@ -5,10 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .navbar-brand img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .form-group img {
+            width: 100px;
+            height: 100px;
+            display: block;
+            margin: 10px auto;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{{ url_for('routes.index') }}">To-Do App</a>
+        <a class="navbar-brand" href="{{ url_for('routes.index') }}">
+            <img src="{{ url_for('static', filename='icon.png') }}" alt="Logo">
+            To-Do App
+        </a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 {% if current_user.is_authenticated %}

@@ -8,6 +8,7 @@
 <ul class="list-group">
     {% for task in tasks %}
         <li class="list-group-item">
+            <img src="{{ url_for('static', filename='icon.png') }}" class="float-left mr-3" alt="Task Image">
             {{ task.title }}
             <form action="{{ url_for('routes.delete_task', task_id=task.id) }}" method="post" style="display:inline;">
                 <button type="submit" class="btn btn-danger btn-sm float-right">Delete</button>

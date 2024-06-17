@@ -7,6 +7,7 @@
 <form method="POST" action="{{ url_for('routes.login') }}">
     {{ form.hidden_tag() }}
     <div class="form-group">
+        <img src="{{ url_for('static', filename='login_icon.png') }}" alt="Login Icon">
         {{ form.username.label(class="form-control-label") }}
         {{ form.username(class="form-control") }}
     </div>
