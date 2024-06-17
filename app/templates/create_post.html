@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Create Post</title>
+    </head>
+    <body>
+        <h1>Create New Post</h1>
+        <form method="POST" action="{{ url_for('routes.new_post') }}">
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.title.label }}<br>
+                {{ form.title(size=32) }}
+            </p>
+            <p>
+                {{ form.content.label }}<br>
+                {{ form.content(cols=64, rows=10) }}
+            </p>
+            <p>{{ form.submit() }}</p>
+        </form>
+    </body>
+</html>
