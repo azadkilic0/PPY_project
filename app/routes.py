@@ -1,14 +1,15 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
-from .models import User, Post, db
-from .forms import RegistrationForm, LoginForm, PostForm
+from .models import User, Task, db
+from .forms import RegistrationForm, LoginForm, TaskForm
 
 bp = Blueprint('routes', __name__)
 
 @bp.route('/')
+@login_required
 def index():
-    posts = Post.query.all()
-    return render_template('index.html', posts=posts)
+    tasks = Task.query.filter_by(author=current_user).all()
+    return render_template('index.html', tasks=tasks)
 
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
@@ -37,21 +38,28 @@ def login():
 def logout():
     logout_user()
     flash('You have been logged out.')
-    return redirect(url_for('routes.index'))
+    return redirect(url_for('routes.login'))
 
-@bp.route('/post/new', methods=['GET', 'POST'])
+@bp.route('/task/new', methods=['GET', 'POST'])
 @login_required
-def new_post():
-    form = PostForm()
+def new_task():
+    form = TaskForm()
     if form.validate_on_submit():
-        post = Post(title=form.title.data, content=form.content.data, author=current_user)
-        db.session.add(post)
+        task = Task(title=form.title.data, author=current_user)
+        db.session.add(task)
         db.session.commit()
-        flash('Your post has been created!')
+        flash('Your task has been created!')
         return redirect(url_for('routes.index'))
-    return render_template('create_post.html', form=form)
+    return render_template('create_task.html', form=form)
 
-@bp.route('/post/<int:post_id>')
-def post(post_id):
-    post = Post.query.get_or_404(post_id)
-    return render_template('post.html', title=post.title, post=post)
+@bp.route('/task/delete/<int:task_id>', methods=['POST'])
+@login_required
+def delete_task(task_id):
+    task = Task.query.get_or_404(task_id)
+    if task.author != current_user:
+        flash('You do not have permission to delete this task.')
+        return redirect(url_for('routes.index'))
+    db.session.delete(task)
+    db.session.commit()
+    flash('Task deleted successfully.')
+    return redirect(url_for('routes.index'))
