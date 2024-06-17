@@ -1,29 +1,29 @@
-<!doctype html>
-<html>
-    <head>
-        <title>Register</title>
-    </head>
-    <body>
-        <h1>Register</h1>
-        <form method="POST" action="{{ url_for('routes.register') }}">
-            {{ form.hidden_tag() }}
-            <p>
-                {{ form.username.label }}<br>
-                {{ form.username(size=32) }}
-            </p>
-            <p>
-                {{ form.email.label }}<br>
-                {{ form.email(size=64) }}
-            </p>
-            <p>
-                {{ form.password.label }}<br>
-                {{ form.password(size=64) }}
-            </p>
-            <p>
-                {{ form.confirm_password.label }}<br>
-                {{ form.confirm_password(size=64) }}
-            </p>
-            <p>{{ form.submit() }}</p>
-        </form>
-    </body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<h1>Register</h1>
+<form method="POST" action="{{ url_for('routes.register') }}">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.username.label(class="form-control-label") }}
+        {{ form.username(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.email.label(class="form-control-label") }}
+        {{ form.email(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.password.label(class="form-control-label") }}
+        {{ form.password(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.confirm_password.label(class="form-control-label") }}
+        {{ form.confirm_password(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.submit(class="btn btn-primary") }}
+    </div>
+</form>
+{% endblock %}

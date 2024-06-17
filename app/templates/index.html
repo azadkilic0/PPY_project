@@ -1,26 +1,18 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Blog Posts</title>
-  </head>
-  <body>
-    <h1>Blog Posts</h1>
-    <nav>
-      <ul>
-        <li><a href="{{ url_for('routes.register') }}">Register</a></li>
-        <li><a href="{{ url_for('routes.login') }}">Login</a></li>
-        <li><a href="{{ url_for('routes.logout') }}">Logout</a></li>
-        <li><a href="{{ url_for('routes.new_post') }}">Create New Post</a></li>
-      </ul>
-    </nav>
-    {% for post in posts %}
-      <div>
-        <h2>{{ post.title }}</h2>
-        <p>{{ post.content }}</p>
-        <p>Author: {{ post.author.username }}</p>
-      </div>
+{% extends "base.html" %}
+
+{% block title %}To-Do List{% endblock %}
+
+{% block content %}
+<h1>Your Tasks</h1>
+<a href="{{ url_for('routes.new_task') }}" class="btn btn-primary mb-3">Add New Task</a>
+<ul class="list-group">
+    {% for task in tasks %}
+        <li class="list-group-item">
+            {{ task.title }}
+            <form action="{{ url_for('routes.delete_task', task_id=task.id) }}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-danger btn-sm float-right">Delete</button>
+            </form>
+        </li>
     {% endfor %}
-  </body>
-</html>
+</ul>
+{% endblock %}
